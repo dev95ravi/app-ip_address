@@ -14,6 +14,7 @@ const IPCIDR = require('ip-cidr');
  * @return {string} (firstIpAddress) - An IPv4 address.
  */
 function getFirstIpAddress(cidrStr, callback) {
+
   // Initialize return arguments for callback
   let firstIpAddress = null;
   let callbackError = null;
@@ -41,17 +42,8 @@ function getFirstIpAddress(cidrStr, callback) {
   // Node.js convention is to pass error data as the first argument to a callback.
   // The IAP convention is to pass returned data as the first argument and error
   // data as the second argument to the callback function.
-  let mappedAddress = getIpv4MappedIpv6Address(firstIpAddress);
-  var mappedData = []
-  mappedData.push({
-      "ipv4":firstIpAddress,
-      "ipv6":mappedAddress
-  })
-  console.log('mappedData', mappedData[0])
-  firstIpAddress = JSON.stringify(mappedData[0])
   return callback(firstIpAddress, callbackError);
 }
-
 
 /**
  * Calculates an IPv4-mapped IPv6 address.
@@ -65,7 +57,7 @@ function getIpv4MappedIpv6Address(ipv4) {
 
   // Prepare to derive a Hex version of the dotted-quad decimal IPv4 address.
   // Split the IPv4 address into its four parts.
-   let ipv4Quads = ipv4 ? ipv4.split('.') : []
+  let ipv4Quads = ipv4.split('.');
   // Count the number of parts found.
   let numIpv4Segments = ipv4Quads.length;
 
